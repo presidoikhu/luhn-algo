@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luhn Algorithm</title>
+    
+    <style>
+    
+body{
+    background-color: antiquewhite;
+}
+
+.box{
+    background-color: white;
+    height: 300px;
+    width :300px;
+    margin-top: 10%;
+    margin-left: 40%;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px 10px rgb(120, 120, 129);
+}
+
+h1{
+    margin-left: 30px;
+    padding-top: 30px;
+}
+
+label{
+margin-left: 50px;
+
+}
+
+input{
+    display: block;
+    margin-left: 60px;
+    margin-top: 10px;
+    height: 30px;
+}
+
+button{
+margin-top: 20px;
+margin-left: 100px;
+background-color: pink;
+border: none;
+border-radius: 5px;
+height: 30px;
+}
+
+#result{
+    margin-left: 100px;
+    font-size: larger;
+}
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Luhn Algorithm</h1>
+        
+        <label for="credit-card">Enter Credit Card Number:</label>
+        <input type="text" id="credit-card" placeholder="Enter credit card number">
+        <button id="validate-button">Validate Card</button>
+    <p id="result"></p>
+</div>
+
+
+    <script>
+        // JavaScript code goes here
+        document.getElementById('validate-button').addEventListener('click', validateCard);
+
+        function validateCard() {
+            let creditCardInput = document.getElementById('credit-card').value;
+            let numericDigits = [];
+
+            // Remove spaces and convert to an array of numeric digits
+            numericDigits = creditCardInput.replace(/\s/g, '').match(/\d/g).map(Number);
+
+            // Check if the number of digits is valid
+            if (numericDigits.length !== 16) {
+                document.getElementById('result').textContent = 'Invalid card.';
+                return;
+            }
+
+            // Apply Luhn algorithm
+            let sum = 0;
+            for (let i = numericDigits.length - 1; i >= 0; i--) {
+                let digit = numericDigits[i];
+                if (i % 2 === 0) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+                sum += digit;
+            }
+
+            // Check if the sum modulo 10 is 0
+            if (sum % 10 === 0) {
+                document.getElementById('result').textContent = 'Card is valid.';
+            } else {
+                document.getElementById('result').textContent = 'Invalid card.';
+            }
+        }
+    </script>
+</body>
+</html>
